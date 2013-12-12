@@ -1,14 +1,14 @@
-# This file creates a container that runs ZNC
+# This file creates a container that runs ZNC through tor
 #
-# Author: Paul Czarkowski
-# Date: 08/04/2013
+# Author: Patrick Kettner
+# Date: 11/12/2013
 
 
-FROM ubuntu:12.10
-MAINTAINER Paul Czarkowski "paul@paulcz.net"
+FROM stackbrew/ubuntu:13.10
+MAINTAINER Patrick Kettner "patrickkettner@gmail.com"
 
 RUN apt-get update
-RUN apt-get -y install znc
+RUN apt-get -y install znc tor proxychains
 
 ADD start-znc /usr/local/bin/start-znc
 ADD znc.pem /opt/znc/znc.pem
@@ -22,5 +22,4 @@ RUN chown -R znc:znc /opt/znc
 EXPOSE 6667
 
 # Start znc
-CMD ["start-znc"]
-
+CMD ["proxychains start-znc"]
